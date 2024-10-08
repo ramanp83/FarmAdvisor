@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        h1 {
+            margin: 0;
+        }
+        
+        main {
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        form {
+            margin-top: 20px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+        }
+        
+        input[type="number"],
+        select {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+            font-size: 16px;
+        }
+        
+        button[type="submit"] {
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        
+        button[type="submit"]:hover {
+            background-color: #555;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 10px 0;
+            background-color: #333;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>AI Crop Prediction System</h1>
+    </header>
+    <main>
+        <form action="/predict" method="POST">
+            <label for="nitrogen-content">Nitrogen Content Present:</label>
+            <input type="number" id="nitrogen-content" name="n" step="any" min="0">
+            
+            <label for="phosphorus-content">P Content Present:</label>
+            <input type="number" id="phosphorus-content" name="p" step="any" min="0">
+            
+            <label for="potassium-content">K Content Present:</label>
+            <input type="number" id="potassium-content" name="k" step="any" min="0">
+            
+            <label for="soil-humidity">Soil Humidity:</label>
+            <input type="number" id="soil-humidity" name="humidity" step="any" min="0">
+            
+            <label for="atmospheric-temp">Atmospheric Temperature:</label>
+            <input type="number" id="atmospheric-temp" name="temperature" step="any" min="0">
+
+            <label for="ph">Soil pH:</label>
+            <input type="number" id="ph" name="ph" step="any" min="0">
+
+            <label for="rainfall">Rainfall (mm):</label>
+            <input type="number" id="rainfall" name="rainfall" step="any" min="0">
+
+            <label for="prediction-mode">Select The Mode (method):</label>
+            <select id="prediction-mode" name="prediction-mode">
+                <option value="random-forest">Random Forest</option>
+                <option value="decision-tree">Decision Tree</option>
+            </select>
+            
+            <!-- Add more input fields and other elements here as needed -->
+            
+            <button type="submit">Predict</button>
+        </form>
+
+        <p id="predictionResult"></p>
+        
+        <script>
+            document.querySelector('form').addEventListener('submit', function (e) {
+                e.preventDefault();
+                
+                // Collect form data
+                const formData = new FormData(this);
+        
+                // Send a POST request to your Flask server
+                fetch('/predict', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    // Update the prediction result on the page
+                    document.getElementById('predictionResult').textContent = `Predicted Crop Label: ${data.prediction}`;
+                });
+            });
+        </script>
+        
+    </main>
+    <footer>
+        <!-- Add footer content here -->
+    </footer>
+</body>
+</html>

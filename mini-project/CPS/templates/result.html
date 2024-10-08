@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Result</title>
+</head>
+<body>
+    <h1>Result</h1>
+    <p>Predicted Crop Label: <span id="prediction"></span></p>
+
+    <script>
+        // Get the prediction value from Flask route
+var predictionValue = "{{ prediction }}";
+
+// Set the prediction value in the HTML
+document.getElementById("prediction").textContent = predictionValue;
+
+    </script>
+</body>
+</html>
